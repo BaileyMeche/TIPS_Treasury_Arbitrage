@@ -89,8 +89,7 @@ def load_tips_yield_curve(data_dir):
 
 # Example usage
 if __name__ == "__main__":
-    data_directory = "path/to/your/data/directory"
     tips_df = pull_fed_tips_yield_curve()
-    save_tips_yield_curve(tips_df, data_directory)
+    save_tips_yield_curve(tips_df, DATA_DIR)
     # To load the data later
-    loaded_tips_df = load_tips_yield_curve(data_directory)
+    #loaded_tips_df = load_tips_yield_curve(DATA_DIR)

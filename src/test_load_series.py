@@ -6,15 +6,16 @@ import pytest
 from pull_fed_yield_curve import load_fed_yield_curve_all
 from pull_fed_tips_yield_curve import load_tips_yield_curve
 import load_bases_data
+from decouple import config
 
 # Get the DATA_DIR from the environment. Ensure this env variable is set.
-DATA_DIR = os.environ.get("DATA_DIR")
+DATA_DIR = config("DATA_DIR", '')
 if DATA_DIR is None:
     raise EnvironmentError("DATA_DIR environment variable is not set.")
 
 def load_predicted_data():
     # Load treasury inflation swaps from CSV.
-    swaps_path = os.path.join(os.environ.get("DATA_DIR"), "treasury_inflation_swaps.csv")
+    swaps_path = os.path.join(DATA_DIR, "treasury_inflation_swaps.csv")
     df_swaps = pd.read_csv(swaps_path)
     
     # Rename and select the required columns.
@@ -36,7 +37,7 @@ def load_predicted_data():
     df_yield = load_fed_yield_curve_all()
     
     # Load fed TIPS yield data.
-    df_tips = load_tips_yield_curve()
+    df_tips = load_tips_yield_curve(DATA_DIR)
     
     # Combine the dataframes side by side.
     df_predicted = pd.concat([df_swaps, df_yield, df_tips], axis=1)
